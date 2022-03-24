@@ -4,10 +4,10 @@ import java.util.concurrent.*;
 
 public class ThreadPoolQueue {
     // BlockingQueue data type will be necessarily for the next releases
-    private  BlockingQueue<String> tasksQueue = new LinkedBlockingQueue();
+    private final BlockingQueue<String> tasksQueue = new LinkedBlockingQueue();
     private long taskCounter = 0;
-    private ScheduledExecutorService pushTasksScheduledExecutionService = Executors.newScheduledThreadPool(5);
-    private ScheduledExecutorService pullTasksScheduledExecutionService = Executors.newScheduledThreadPool(5);
+    private final ScheduledExecutorService pushTasksScheduledExecutionService = Executors.newScheduledThreadPool(5);
+    private final ScheduledExecutorService pullTasksScheduledExecutionService = Executors.newScheduledThreadPool(5);
 
     ThreadPoolQueue() {
         makeGracefulShutdown();
@@ -22,8 +22,6 @@ public class ThreadPoolQueue {
         Runnable pushTask = () -> {
             System.out.println("Pushing task: " + taskCounter);
             try {
-                //Restrict access to only one thread to change a variable taskCounter and put task to tasksQueue at the
-                //same time
                 this.tasksQueue.put(taskCounter + "");
                 taskCounter++;
 
