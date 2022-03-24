@@ -30,7 +30,7 @@ public class TaskConsumer implements TaskService{
                 logger.info("Getting task: " + headTask);
         };
 
-        pullTasksScheduledExecutionService.scheduleAtFixedRate(pullTask, 0, 150, TimeUnit.MILLISECONDS);
+        pullTasksScheduledExecutionService.scheduleAtFixedRate(pullTask, initialDelay, period, TimeUnit.MILLISECONDS);
         logger.info("Task pulling service is started.");
     }
 
