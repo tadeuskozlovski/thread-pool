@@ -7,9 +7,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TaskProducer implements TaskService {
-    private long taskCounter = 0;
+    private AtomicLong taskCounter = new AtomicLong();
     private final ScheduledExecutorService pushTasksScheduledExecutionService;
     private final Logger logger = LoggerFactory.getLogger(TaskProducer.class);
     private final BlockingQueue<String> tasksQueue;
@@ -29,10 +30,7 @@ public class TaskProducer implements TaskService {
             logger.info("Pushing task: " + taskCounter);
             try {
                 tasksQueue.put(taskCounter + "");
-
-                synchronized (this) {
-                    taskCounter++;
-                }
+                taskCounter.incrementAndGet();
             } catch (InterruptedException e) {
                 StackTraceElement[] stackTrace = e.getStackTrace();
 
