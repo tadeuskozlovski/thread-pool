@@ -57,6 +57,4 @@ public class TaskProducer implements TaskService {
         pushTasksScheduledExecutionService.shutdown();
         logger.info("Task pushing service is disabled.");
     }
-
-
 }

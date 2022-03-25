@@ -15,19 +15,16 @@ public class App {
             // log4j basic configuration
             BasicConfigurator.configure();
 
-            //Every service is registered in ServiceRegister
-            ServiceRegister serviceRegister = new ServiceRegister();
-
             TaskService taskProducer = new TaskProducer(tasksQueue);
-            serviceRegister.registerService(taskProducer);
+            ServiceRegister.INSTANCE.registerService(taskProducer);
             taskProducer.run();
 
             TaskService taskConsumer = new TaskConsumer(tasksQueue);
-            serviceRegister.registerService(taskConsumer);
+            ServiceRegister.INSTANCE.registerService(taskConsumer);
             taskConsumer.run();
 
             //Disabling all registered services
-            new GracefulShutdown().enable(serviceRegister);
+            new GracefulShutdown().enable(ServiceRegister.INSTANCE);
         } catch (Exception e) {
             StackTraceElement[] stackTrace = e.getStackTrace();
 
